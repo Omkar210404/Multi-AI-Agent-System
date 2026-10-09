@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multi-AI Agent System</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Cpath d='M16 7l2.2 6.8L25 16l-6.8 2.2L16 25l-2.2-6.8L7 16l6.8-2.2z' fill='white'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body class="simple">
+  <div class="shell">
+    <aside id="sidebar" class="sidebar" aria-label="Chats">
+      <div class="sidebar-top">
+        <div class="brand">
+          <span class="logo" data-icon="sparkle" aria-hidden="true"></span>
+          <div class="brand-text">
+            <h1>Multi-AI Agent System</h1>
+            <p class="subtitle">Specialist agents, one chat</p>
+          </div>
+        </div>
+        <button id="new-chat-btn" class="btn btn-block" type="button"><span data-icon="plus"></span><span>New chat</span></button>
+      </div>
+      <nav id="chat-list" class="chat-list" aria-label="Previous chats"></nav>
+      <p class="sidebar-note">Chats are saved in this browser only.</p>
+    </aside>
+    <div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
+
+    <div class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="menu-btn" class="icon-btn menu-btn" type="button" aria-label="Show chats" data-icon="menu"></button>
+          <span id="chat-title" class="chat-title">New chat</span>
+        </div>
+        <div class="top-actions">
+          <span id="health-pill" class="status" title="Connection status"><span class="status-dot"></span><span id="health-text">Connecting…</span></span>
+          <label class="switch" title="Show the step-by-step trace and technical details">
+            <input id="details-toggle" type="checkbox" />
+            <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+            <span class="switch-label">How it works</span>
+          </label>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="chat" aria-label="Chat">
+          <div id="notice" class="notice" hidden>
+            <span data-icon="info"></span>
+            <span id="notice-text"></span>
+            <button id="notice-close" class="icon-btn" type="button" aria-label="Dismiss" data-icon="x"></button>
+          </div>
+
+          <div id="messages" class="messages" aria-live="polite">
+            <div id="welcome" class="welcome">
+              <span class="welcome-mark" data-icon="sparkle" aria-hidden="true"></span>
+              <h2>What can I help you with?</h2>
+              <p>Ask anything. A coordinator reads your message and hands it to the right specialist, or to a small team of them.</p>
+              <div id="examples" class="example-grid"></div>
+            </div>
+          </div>
+
+          <form id="composer" class="composer" autocomplete="off">
+            <div class="composer-box">
+              <textarea id="input" rows="1" maxlength="4000" placeholder="Message the agents…" aria-label="Message"></textarea>
+              <button id="send-btn" class="send-btn" type="submit" aria-label="Send message" title="Send" data-icon="arrow-up"></button>
+            </div>
+            <div class="composer-hint">
+              <span id="request-status">Enter to send · Shift + Enter for a new line</span>
+              <span id="char-count" hidden></span>
+            </div>
+          </form>
+        </section>
+
+        <aside class="details-panel" aria-label="How it works">
+          <div class="card">
+            <div class="card-head">
+              <h3>How this answer was made</h3>
+              <span id="trace-total" class="muted small"></span>
+            </div>
+            <p id="trace-empty" class="muted small">Send a message to see each step the system took.</p>
+            <ol id="trace-list" class="trace"></ol>
+            <p id="trace-id" class="muted mono tiny"></p>
+          </div>
+          <div class="card">
+            <h3>The specialists</h3>
+            <ul id="agent-list" class="agent-list"></ul>
+          </div>
+        </aside>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

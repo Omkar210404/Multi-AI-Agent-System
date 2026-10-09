@@ -1,0 +1,10 @@
+[project]
+name = "multi-ai-agent-system"
+version = "0.1.0"
+description = "Orchestrator that routes requests to specialist LLM agents, with tracing, safety and a provider-agnostic LLM layer."
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
