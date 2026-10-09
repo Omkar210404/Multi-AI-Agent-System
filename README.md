@@ -1,5 +1,7 @@
 # Multi-AI Agent System
 
+[![CI](https://github.com/Omkar210404/Multi-AI-Agent-System/actions/workflows/ci.yml/badge.svg)](https://github.com/Omkar210404/Multi-AI-Agent-System/actions/workflows/ci.yml)
+
 A FastAPI service in which an **orchestrator routes each request to one or more specialist LLM agents**. Every response is a validated Pydantic object, and every step is recorded in an agent trace.
 
 The LLM layer works with any provider: it runs offline with a deterministic mock provider, or against any OpenAI-compatible API (OpenAI, Groq, OpenRouter, Ollama, …), selected by environment variables.
@@ -175,7 +177,7 @@ If the key or model is missing, the app still starts. `/health` then reports `"s
 docker compose up --build
 ```
 
-> The Dockerfile and compose file haven't been built in my development environment, where Docker isn't installed. Please open an issue if they fail.
+> CI builds the Docker image on every push, starts the container and checks `/health` (see the CI badge). `docker compose` itself has not been run locally, because Docker isn't installed on my development machine.
 
 ## Environment variables
 
@@ -297,7 +299,7 @@ On 2026-10-09 I ran seven example questions through the running app (Groq free t
 pytest
 ```
 
-The latest run gives **110 passed**. All tests use the mock provider or `httpx.MockTransport`, so they need no network or keys. They cover:
+The latest run gives **110 passed**, locally and in GitHub Actions, which runs the suite on every push. All tests use the mock provider or `httpx.MockTransport`, so they need no network or keys. They cover:
 - **API:** an end-to-end run through the OpenAI-compatible provider over a fake HTTP backend, health, chat structure and trace steps, multi-agent order, fact-check output, invalid input (blank, too long, malformed JSON, bad IDs), missing API key, provider timeouts and rate limits, unexpected exceptions (500 response with no leaked details), secret redaction, feedback, memory and clearing it, the UI being served.
 - **Router:** LLM decisions, stage ordering, fact-check insertion, filtering of unknown agents, fallback on malformed output or provider errors, auth errors not being swallowed.
 - **Agents:** registry creation, metadata on LLM calls, history and prior outputs being passed, error tracing, fact-check labelling with and without sources.
@@ -335,7 +337,7 @@ The latest run gives **110 passed**. All tests use the mock provider or `httpx.M
 - **Server-side memory, traces and feedback are in-process.** They're lost on restart and not shared between multiple workers.
 - **No authentication or rate limiting on the API**, so it isn't suitable for public deployment as-is.
 - **No streaming.** Responses arrive when every agent has finished.
-- **Docker files have not been verified** (see above).
+- **`docker compose` not run locally.** The image is built and health-checked in CI, but the compose file hasn't been run by hand.
 
 ## Future improvements
 
@@ -344,7 +346,6 @@ The latest run gives **110 passed**. All tests use the mock provider or `httpx.M
 - Run independent agents in parallel, and stream tokens to the UI
 - Persist traces and feedback in SQLite or Postgres; use Redis for memory
 - Add API keys and rate limiting for the API, and a moderation model as a second safety layer
-- Add CI with GitHub Actions (tests and a Docker build)
 
 ## Use cases
 
