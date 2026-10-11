@@ -18,6 +18,7 @@ build/
 dist/
 
 # Editors / OS
+.claude/
 .vscode/
 .idea/
 .DS_Store
